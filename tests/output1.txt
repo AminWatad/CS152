@@ -1,0 +1,146 @@
+ident -> IDENT  
+declaration1 -> epsilon 
+array -> epsilon 
+declaration -> ident declaration COLON array INTEGER 
+declarations -> epsilon 
+declarations -> declaration SEMICOLON declaration 
+declarations -> epsilon 
+not -> epsilon 
+not -> epsilon 
+ident -> IDENT  
+term3 -> epsilon 
+term -> ident term3 
+multiplicative_expr1 -> epsilon 
+multiplicative_expr -> term multiplicative_expr1 
+expression1 -> epsilon 
+expression -> multiplicative_expr expression1 
+comp -> LTE 
+negative1 -> epsilon 
+term1 -> NUMBER 
+term -> negative term1 
+multiplicative_expr1 -> epsilon 
+multiplicative_expr -> term multiplicative_expr1 
+expression1 -> epsilon 
+expression -> multiplicative_expr expression1 
+relation_expr1 -> expression comp expression
+relation_expr -> not relation_expr1 
+relation_and_expr1 -> epsilon 
+relation_and_expr -> relation_expr relation_and_expr1 
+boolexpr1 -> epsilon 
+boolexpr -> relation_and_expr boolexpr1 
+relation_expr1 -> L_PAREN boolexpr R_PAREN 
+relation_expr -> not relation_expr1 
+relation_and_expr1 -> epsilon 
+relation_and_expr -> relation_expr relation_and_expr1 
+boolexpr1 -> epsilon 
+boolexpr -> relation_and_expr boolexpr1 
+negative1 -> epsilon 
+term1 -> NUMBER 
+term -> negative term1 
+multiplicative_expr1 -> epsilon 
+multiplicative_expr -> term multiplicative_expr1 
+expression1 -> epsilon 
+expression -> multiplicative_expr expression1 
+statement -> RETURN expression 
+statements -> epsilon 
+else -> epsilon 
+statement -> IF boolexpr THEN statement SEMICOLON statements else ENDIF 
+ident -> IDENT  
+ident -> IDENT  
+term3 -> epsilon 
+term -> ident term3 
+multiplicative_expr1 -> epsilon 
+multiplicative_expr -> term multiplicative_expr1 
+negative1 -> epsilon 
+term1 -> NUMBER 
+term -> negative term1 
+multiplicative_expr1 -> epsilon 
+multiplicative_expr -> term multiplicative_expr1 
+expression1 -> epsilon 
+expression -> multiplicative_expr expression1 
+expression1 -> SUB expression 
+expression -> multiplicative_expr expression1 
+exprssions -> epsilon 
+term2 -> expression expressions 
+term3 -> L_PAREN term2 R_PAREN 
+term -> ident term3 
+multiplicative_expr1 -> epsilon 
+multiplicative_expr -> term multiplicative_expr1 
+ident -> IDENT  
+ident -> IDENT  
+term3 -> epsilon 
+term -> ident term3 
+multiplicative_expr1 -> epsilon 
+multiplicative_expr -> term multiplicative_expr1 
+negative1 -> epsilon 
+term1 -> NUMBER 
+term -> negative term1 
+multiplicative_expr1 -> epsilon 
+multiplicative_expr -> term multiplicative_expr1 
+expression1 -> epsilon 
+expression -> multiplicative_expr expression1 
+expression1 -> SUB expression 
+expression -> multiplicative_expr expression1 
+exprssions -> epsilon 
+term2 -> expression expressions 
+term3 -> L_PAREN term2 R_PAREN 
+term -> ident term3 
+multiplicative_expr1 -> epsilon 
+multiplicative_expr -> term multiplicative_expr1 
+expression1 -> epsilon 
+expression -> multiplicative_expr expression1 
+expression1 -> ADD expression 
+expression -> multiplicative_expr expression1 
+statement -> RETURN expression 
+statements -> epsilon 
+statements -> statement SEMICOLON statements 
+statements -> statement SEMICOLON statements 
+function -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY 
+declarations -> epsilon 
+ident -> IDENT  
+declaration1 -> epsilon 
+array -> epsilon 
+declaration -> ident declaration COLON array INTEGER 
+ident -> IDENT  
+declaration1 -> epsilon 
+array -> epsilon 
+declaration -> ident declaration COLON array INTEGER 
+declarations -> epsilon 
+declarations -> declaration SEMICOLON declaration 
+declarations -> declaration SEMICOLON declaration 
+ident -> IDENT  
+var -> ident 
+vars -> epsilon 
+statement -> READ var vars 
+ident -> IDENT  
+var -> ident 
+ident -> IDENT  
+ident -> IDENT  
+term3 -> epsilon 
+term -> ident term3 
+multiplicative_expr1 -> epsilon 
+multiplicative_expr -> term multiplicative_expr1 
+expression1 -> epsilon 
+expression -> multiplicative_expr expression1 
+exprssions -> epsilon 
+term2 -> expression expressions 
+term3 -> L_PAREN term2 R_PAREN 
+term -> ident term3 
+multiplicative_expr1 -> epsilon 
+multiplicative_expr -> term multiplicative_expr1 
+expression1 -> epsilon 
+expression -> multiplicative_expr expression1 
+statement -> var ASSIGN expression 
+ident -> IDENT  
+var -> ident 
+vars -> epsilon 
+statement -> WRITE var vars 
+statements -> epsilon 
+statements -> statement SEMICOLON statements 
+statements -> statement SEMICOLON statements 
+statements -> statement SEMICOLON statements 
+function -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY 
+functions -> epsilon 
+functions -> function 
+functions -> function 
+prog_start -> functions 

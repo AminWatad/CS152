@@ -1,0 +1,8 @@
+function amin;
+beginparams
+endparams
+beginlocals
+endlocals
+beginbody
+endbody
+

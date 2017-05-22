@@ -1,0 +1,37 @@
+ident -> IDENT  
+declaration1 -> epsilon 
+array -> epsilon 
+declaration -> ident declaration COLON array INTEGER 
+declarations -> epsilon 
+declarations -> declaration SEMICOLON declaration 
+declarations -> epsilon 
+not -> epsilon 
+not -> epsilon 
+ident -> IDENT  
+term3 -> epsilon 
+term -> ident term3 
+multiplicative_expr1 -> epsilon 
+multiplicative_expr -> term multiplicative_expr1 
+expression1 -> epsilon 
+expression -> multiplicative_expr expression1 
+comp -> LTE 
+negative1 -> epsilon 
+term1 -> NUMBER 
+term -> negative term1 
+multiplicative_expr1 -> epsilon 
+multiplicative_expr -> term multiplicative_expr1 
+expression1 -> epsilon 
+expression -> multiplicative_expr expression1 
+relation_expr1 -> expression comp expression
+relation_expr -> not relation_expr1 
+relation_and_expr1 -> epsilon 
+relation_and_expr -> relation_expr relation_and_expr1 
+boolexpr1 -> epsilon 
+boolexpr -> relation_and_expr boolexpr1 
+relation_expr1 -> L_PAREN boolexpr R_PAREN 
+relation_expr -> not relation_expr1 
+relation_and_expr1 -> epsilon 
+relation_and_expr -> relation_expr relation_and_expr1 
+boolexpr1 -> epsilon 
+boolexpr -> relation_and_expr boolexpr1 
+error syntax error, unexpected RETURN, expecting THEN 
