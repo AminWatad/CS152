@@ -122,7 +122,7 @@ relation_and_expr1: 	AND relation_and_expr
 			| epsilon 
 			;
 
-relation_expr: 	not relation_expr1 
+relation_expr: 	not relation_expr1 {}
 		;
 relation_expr1: expression comp expression 
 		| TRUE 
