@@ -61,8 +61,8 @@ int yylex(void);
 prog_start:	 functions {printf("prog_start -> functions \n");}
 		;
 
-functions: 	 function functions {printf("functions -> function \n");}
-		| epsilon {printf("functions -> epsilon \n");}
+functions: 	 function functions 
+		| epsilon 
 		;
 
 function: 	FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY {printf("function -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS declarations END_PARAMS BEGIN_LOCALS declarations END_LOCALS BEGIN_BODY statements END_BODY \n");} 
