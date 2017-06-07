@@ -6,6 +6,7 @@ beginlocals
     l : integer;
 endlocals
 beginbody
+        if (k > 1) then return 1; endif;
         k := 1;
         k := (l + k);
         if (k <= 1) then return 1; endif;

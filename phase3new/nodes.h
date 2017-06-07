@@ -180,6 +180,7 @@ public:
     decode[289] = ">= ";
     decode[285] = "&& ";
     decode[284] = "|| ";
+    decode[286] = "!";
     return decode[i];
   }
    
@@ -190,11 +191,32 @@ public:
     code += (". " + place +"\n");
     code += (findS(c2) + place + ", " + c1->place + ", " + c3->place + "\n");
   }
-  BoolExpr( BoolExpr* c1,   int c2, BoolExpr* c3 ) {}
-  BoolExpr( int c1, BoolExpr* c2 ) {}
+  BoolExpr( BoolExpr* c1,   int c2, BoolExpr* c3 ) {
+    place = newTemp();
+    code = c1->code;
+    code += c3->code;
+    code += (". " + place +"\n");
+    code += (findS(c2) + place + ", " + c1->place + ", " + c3->place + "\n");
+    
+  }
+  BoolExpr( int c1, BoolExpr* c2 ) {
+    place = newTemp();
+    code = c2->code;
+    code += (". " + place +"\n");
+    code += (findS(c1) + place + ", " + c2->place + "\n");
+  
+  }
   BoolExpr( int c1 ) {}
-  BoolExpr( int c1, BoolExpr* c2, int c3 ) {}
-  BoolExpr( int c1, int c2, int c3 ) {}
+  BoolExpr( int c1, BoolExpr* c2, int c3 ) {
+    code = c2->code;
+    place = c2->place;
+  }
+  BoolExpr( int c1, int c2, int c3 ) {
+     place = newTemp();
+     code += (". " + place + "\n");
+     code += ("= " + place + ", " +itoa(c1) + "\n");
+  
+  }
 };
 
 class Declaration : public Node {
@@ -289,7 +311,17 @@ class IfThenElseStmt : public Statement {
 public:    
   IfThenElseStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5,
 		  Statements* c6, int c7 ) {
-  (code += c2->code) += ("test \n");
+    (code += c2->code);
+    string start = newLabel();
+    string exit = newLabel();
+    //place = newTemp();
+    code += ("?:= " + start + ", " + c2->place +"\n");
+    for (auto it : *c6 ) {code += it->code;};
+    code += (":= " + exit + "\n");
+    code += (": " + start + "\n");
+    for( auto it : *c4  ) {code += it->code;};
+    code += (": " + exit + "\n"); 
+    
   }
 };
 
