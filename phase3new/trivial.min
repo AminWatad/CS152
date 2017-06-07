@@ -1,0 +1,13 @@
+function main;
+beginparams
+endparams
+beginlocals
+n : integer;
+i, j, k : integer;
+t : array[20] of integer;
+endlocals
+ 
+beginbody
+k := j;
+write i, j, k;
+endbody

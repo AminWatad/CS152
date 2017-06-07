@@ -1,0 +1,13 @@
+function fibonacci;
+beginparams
+endparams
+beginlocals
+    k : integer;
+    l : integer;
+endlocals
+beginbody
+        k := 1;
+        k := (l + k);
+        if (k <= 1) then return 1; endif;
+        return fibonacci(k - 1) + fibonacci(k - 2);
+endbody

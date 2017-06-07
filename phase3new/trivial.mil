@@ -1,0 +1,10 @@
+func main
+. n
+. i
+. j
+. k
+= k,j
+.> i
+.> j
+.> k
+endfunc
