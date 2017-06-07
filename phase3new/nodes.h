@@ -59,7 +59,7 @@ public:
 // These should create a name and install it into the appropriate table.
 // It's attributes can be filled in later.
 
-  bool newVar( string name ) {
+  static bool newVar( string name ) {
     // install into symbol table and report collisions
     bool success; 
     success =vartab.insert(pair<string, Var *>(name,0)).second;
@@ -70,9 +70,8 @@ public:
       for(int i=0;i<size;i++)
       {
           place=name+ itoa(size);
-          //newVar=name+ itoa(size);
+          newVar(name+ itoa(size));
       }
-    // install into symbol table and report collisions
   }
 
   bool newParam() {
@@ -283,6 +282,7 @@ public:
       // install *it into var table unless it causes a collision
       // var table contains both scalars and arrays.
       // should construct a Var and add it to the symbol table.
+      newArry(*it,c5);
       vartab[*it] = new Var( it );
       code += ( ".[] " + *it + ", " + std::to_string(c5) + "\n" );
       code += ("= " + *it + ", $" + itoa(counter++) + "\n");
