@@ -5,7 +5,8 @@
 
 // Definitions of node classes, i.e., translation records.
 // A work in progress
-
+#include <iostream>
+#include <string>
 
 // External global variables
 extern ostringstream code;                            // Where target code goes
@@ -211,7 +212,16 @@ public:
 
   Declaration( list<string*>* c1, int c2, int c3, int c4, int c5, int c6,
 	       int c7, int c8 )
-  { }
+  {
+      for( auto it : *c1 )
+      {
+      // install *it into var table unless it causes a collision
+      // var table contains both scalars and arrays.
+      // should construct a Var and add it to the symbol table.
+      vartab[*it] = new Var( it );
+      code += ( ".[] " + *it + ", " + std::to_string(c5) + "\n" );
+      }
+  }
 
 };
 
@@ -232,7 +242,18 @@ public:
 
   ParamDeclaration( list<string*>* c1, int c2, int c3, int c4, int c5, int c6,
 	       int c7, int c8 )
-  { }
+  {
+      static int counter = 0;
+      for( auto it : *c1 )
+      {
+      // install *it into var table unless it causes a collision
+      // var table contains both scalars and arrays.
+      // should construct a Var and add it to the symbol table.
+      vartab[*it] = new Var( it );
+      code += ( ".[] " + *it + ", " + std::to_string(c5) + "\n" );
+      code += ("= " + *it + ", $" + itoa(counter++) + "\n");
+      }
+  }
 
 };
 

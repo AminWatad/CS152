@@ -1,5 +1,6 @@
 function main;
 beginparams
+x : array[20] of integer;
 endparams
 beginlocals
 n : integer;

@@ -1,0 +1,15 @@
+func main
+.[] x, 20
+= x, $0
+. n
+. i
+. j
+. k
+.[] t, 20
+. Temp0
+= Temp0, j
+= k,Temp0
+.> i
+.> j
+.> k
+endfunc
