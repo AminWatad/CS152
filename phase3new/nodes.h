@@ -66,7 +66,12 @@ public:
     return success;
   }
 
-  bool newArry()  {
+  bool newArry(string name, int size)  {
+      for(int i=0;i<size;i++)
+      {
+          place=name+ itoa(size);
+          //newVar=name+ itoa(size);
+      }
     // install into symbol table and report collisions
   }
 
@@ -105,7 +110,14 @@ public:
         exit(1);
     }
   }
-  Var( string* c1, int c2, Expression* c3, int c4 ) {} 
+  Var( string* c1, int c2, Expression* c3, int c4 )
+    {
+        place=*c1;
+        if (vartab.count(place) == 0) {
+            cout << "var: " << place << " is not defined" << endl;
+            exit(1);
+        }
+    }
 };
 
 class Expression  : public Node {
