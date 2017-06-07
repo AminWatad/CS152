@@ -25,7 +25,7 @@ extern map<string, Var*> vartab;
 // extern SemanticType* theWordPtrType;        
 // extern Program* root;                      // pointer to root of syntax tree
 
-
+static int counter = 0;
 class BoolExpr;
 
 class Function;
@@ -229,7 +229,7 @@ class ParamDeclaration : public Node {
 public:
   int size;  // size of array; size == 0 for scalars.
   ParamDeclaration( list<string*>* c1, int c2, int c3 ) { 
-  static int counter = 0;
+  
   for( auto it : *c1 ) {
       // install *it into var table unless it causes a collision
       // var table contains both scalars and arrays.
@@ -243,7 +243,7 @@ public:
   ParamDeclaration( list<string*>* c1, int c2, int c3, int c4, int c5, int c6,
 	       int c7, int c8 )
   {
-      static int counter = 0;
+      
       for( auto it : *c1 )
       {
       // install *it into var table unless it causes a collision
