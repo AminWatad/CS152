@@ -67,6 +67,9 @@ public:
   }
 
   bool newArry(string name, int size)  {
+      if(size<=0){
+          cout<<"error: Array size must be greater than 0"<<endl;
+          exit(1);}
       for(int i=0;i<size;i++)
       {
           place=name+ itoa(size);
@@ -251,6 +254,7 @@ public:
       // install *it into var table unless it causes a collision
       // var table contains both scalars and arrays.
       // should construct a Var and add it to the symbol table.
+      newArry(*it,c5);
       vartab[*it] = new Var( it );
       code += ( ".[] " + *it + ", " + std::to_string(c5) + "\n" );
       }
