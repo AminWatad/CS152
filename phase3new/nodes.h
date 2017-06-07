@@ -339,7 +339,20 @@ public:
 
 class WhileStmt : public Statement {
 public:   
-  WhileStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5) {}
+  WhileStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5) {
+    string start = newLabel();
+    string exit = newLabel();
+    string repeat = newLabel();
+    code += (": " + repeat + "\n");
+    code += c2->code;
+    code += ("?:= " + start + ", " + c2->place + "\n");
+    code += (":= " + exit + "\n");
+    code += (": " + start + "\n");
+    for (auto it : *c4) {code += it->code;};
+    code += (":= " + repeat + "\n");
+    code += (": " + exit + "\n");
+    
+  }
 };
 
 class DoWhileStmt : public Statement {
