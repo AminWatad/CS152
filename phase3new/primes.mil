@@ -1,1 +1,173 @@
-var:  is not defined
+func main
+. n
+.[] a, 1000
+. i
+. j
+. x
+. sqrt_n
+.< n
+. Temp0
+= Temp0, n
+= x,Temp0
+: Label2
+. Temp1
+= Temp1, x
+. Temp2
+= Temp2, n
+. Temp3
+= Temp3, x
+. Temp4
+/ Temp4, Temp2, Temp3
+. Temp5
+> Temp5, Temp1, Temp4
+?:= Label0, Temp5
+:= Label1
+: Label0
+. Temp6
+= Temp6, x
+. Temp7
+= Temp7, n
+. Temp8
+= Temp8, x
+. Temp9
+/ Temp9, Temp7, Temp8
+. Temp10
++ Temp10, Temp6, Temp9
+. Temp11
+= Temp11, 2
+. Temp12
+/ Temp12, Temp10, Temp11
+= x,Temp12
+:= Label2
+: Label1
+. Temp13
+= Temp13, x
+= sqrt_n,Temp13
+. Temp14
+= Temp14, 2
+= i,Temp14
+: Label5
+. Temp15
+= Temp15, i
+. Temp16
+= Temp16, n
+. Temp17
+<= Temp17, Temp15, Temp16
+?:= Label3, Temp17
+:= Label4
+: Label3
+. Temp18
+= Temp18, i
+. Temp19
+= Temp19, 0
+[]= a, Temp18, Temp19
+. Temp20
+= Temp20, i
+. Temp21
+= Temp21, 1
+. Temp22
++ Temp22, Temp20, Temp21
+= i,Temp22
+:= Label5
+: Label4
+. Temp23
+= Temp23, 2
+= i,Temp23
+: Label13
+. Temp24
+= Temp24, i
+. Temp25
+= Temp25, sqrt_n
+. Temp26
+<= Temp26, Temp24, Temp25
+?:= Label11, Temp26
+:= Label12
+: Label11
+. Temp27
+= Temp27, i
+. Temp28
+=[] Temp28, a, Temp27
+. Temp29
+= Temp29, 0
+. Temp30
+== Temp30, Temp28, Temp29
+?:= Label9, Temp30
+:= Label10
+: Label9
+. Temp31
+= Temp31, i
+. Temp32
+= Temp32, i
+. Temp33
++ Temp33, Temp31, Temp32
+= j,Temp33
+: Label8
+. Temp34
+= Temp34, j
+. Temp35
+= Temp35, n
+. Temp36
+<= Temp36, Temp34, Temp35
+?:= Label6, Temp36
+:= Label7
+: Label6
+. Temp37
+= Temp37, j
+. Temp38
+= Temp38, 1
+[]= a, Temp37, Temp38
+. Temp39
+= Temp39, j
+. Temp40
+= Temp40, i
+. Temp41
++ Temp41, Temp39, Temp40
+= j,Temp41
+:= Label8
+: Label7
+: Label10
+. Temp42
+= Temp42, i
+. Temp43
+= Temp43, 1
+. Temp44
++ Temp44, Temp42, Temp43
+= i,Temp44
+:= Label13
+: Label12
+. Temp45
+= Temp45, 2
+= i,Temp45
+: Label18
+. Temp46
+= Temp46, i
+. Temp47
+= Temp47, n
+. Temp48
+<= Temp48, Temp46, Temp47
+?:= Label16, Temp48
+:= Label17
+: Label16
+. Temp49
+= Temp49, i
+. Temp50
+=[] Temp50, a, Temp49
+. Temp51
+= Temp51, 0
+. Temp52
+== Temp52, Temp50, Temp51
+?:= Label14, Temp52
+:= Label15
+: Label14
+.> i
+: Label15
+. Temp53
+= Temp53, i
+. Temp54
+= Temp54, 1
+. Temp55
++ Temp55, Temp53, Temp54
+= i,Temp55
+:= Label18
+: Label17
+endfunc

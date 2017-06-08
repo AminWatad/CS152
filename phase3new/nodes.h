@@ -41,17 +41,20 @@ class Statement;
 typedef list<Statement*>    Statements;
 
 class Var;
+
 typedef list<Var*>          Vars;
 
+
 class Expression;
-typedef list<Expression*>   Expressions;
+typedef list<Expression*>   Expressions; 
 struct Node {
 public:
   Node() : lineNo(yylineno), nextTok(yytext) {}
   virtual ~Node() {};
 
-  string code, place, before, after;  // attributes for node classes here.
+  string index, code, place, before, after;  // attributes for node classes here.
 
+  int type;
   string pos() {      // for reporting errors, which we do only from nodes
     return "At symbol \"" + nextTok + "\" on line " + itoa(lineNo) +",\n";
   }  
@@ -99,10 +102,7 @@ private:
   int lineNo;             // lineNo at Node's construction is used in pos()
   string nextTok;        // nextTok at Node's construction is used in pos()
 };  
-
-
-
-class Var         : public Node {
+class Var : public Node {
 public:
   Var( string* c1 ) {
     // check symbol table for collision
@@ -111,14 +111,19 @@ public:
         cout << "error: " << place <<" has already been defined" << endl;
         exit(1);
     }
-  }
-  Var( string* c1, int c2, Expression* c3, int c4 )
+    type = 1;
+    //place = newTemp();
+    //code += (". " + place + "/n");
+ } 
+  Var( string* c1, int c2, Node* c3, int c4 )
     {
         place=*c1;
         if (vartab.count(place) == 0) {
             cout << "var: " << place << " is not defined" << endl;
             exit(1);
         }
+        index = c3->place;
+        code += c3->code; 
     }
 };
 
@@ -141,8 +146,14 @@ public:
        exit(1);
     }
     string temp = newTemp();
+    code += c1->code;
     code += (". " + temp + "\n");
-    code += ("= " + temp + ", " + place + "\n");
+    if(c1->type == 1) {
+       code += ("= " + temp + ", " + place + "\n");
+    }
+    else {
+       code += ("=[] " + temp + ", " + c1->place + ", " + c1->index + "\n");
+   }
     place = temp;
   }
   Expression( int c1 ) {
@@ -182,6 +193,7 @@ public:
     code += (findSym(c2) + c3->place +"\n");
   }
 };
+
 class BoolExpr    : public Node {
 public:
   string findS(int i) {
@@ -242,6 +254,7 @@ public:
       // var table contains both scalars and arrays.
       // should construct a Var and add it to the symbol table.
       vartab[*it] = new Var( it );
+      vartab[*it]->type = 1;
       code += ( ". " + *it + "\n" );
     }
   }
@@ -256,6 +269,7 @@ public:
       // should construct a Var and add it to the symbol table.
       newArry(*it,c5);
       vartab[*it] = new Var( it );
+      vartab[*it]->type = 2;
       code += ( ".[] " + *it + ", " + std::to_string(c5) + "\n" );
       }
   }
@@ -303,7 +317,13 @@ public:
 class AssignmentStmt : public Statement {
 public:   
   AssignmentStmt( Var* c1, int c2, Expression* c3 ) {
-    (code += c3->code) += ( "= " + c1->place + "," + c3->place + "\n" );  
+    if(c1->type == 1) {
+      (code += c3->code) += ( "= " + c1->place + "," + c3->place + "\n" );  
+      }
+    else {
+      code += c1->code;
+      (code += c3->code) += ("[]= " + c1->place + ", " + c1->index +", "+ c3->place +"\n");
+    }
   }
 };
 
