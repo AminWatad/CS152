@@ -1,0 +1,218 @@
+func main
+. n
+. i
+. j
+. k
+.[] t, 20
+.< i
+.< j
+. Temp0
+= Temp0, 0
+= k,Temp0
+. Temp1
+= Temp1, 20
+= n,Temp1
+:= Label0
+: Label2
+. Temp15
+= Temp15, k
+. Temp16
+= Temp16, n
+. Temp17
+< Temp17, Temp15, Temp16
+?:= Label0
+:= Label1
+: Label0
+. Temp2
+= Temp2, k
+. Temp3
+= Temp3, k
+[]= t, Temp2, Temp3
+. Temp4
+= Temp4, k
+. Temp5
+= Temp5, 1
+. Temp6
++ Temp6, Temp4, Temp5
+= k,Temp6
+. Temp7
+= Temp7, k
+. Temp8
+= Temp8, 2
+. Temp9
+% Temp9, Temp7, Temp8
+. Temp10
+= Temp10, 0
+. Temp11
+== Temp11, Temp9, Temp10
+?:= Label3, Temp11
+:= Label4
+: Label3
+: Label4
+. Temp12
+= Temp12, k
+. Temp13
+= Temp13, l
+. Temp14
+- Temp14, Temp12, Temp13
+.[]> t, Temp14
+:= Label0
+. Temp15
+= Temp15, k
+. Temp16
+= Temp16, n
+. Temp17
+< Temp17, Temp15, Temp16
+: Label1
+. Temp18
+= Temp18, i
+. Temp19
+= Temp19, j
+. Temp20
+< Temp20, Temp18, Temp19
+. Temp21
+= Temp21, j
+. Temp22
+= Temp22, n
+. Temp23
+< Temp23, Temp21, Temp22
+. Temp24
+&& Temp24, Temp20, Temp23
+. Temp25
+= Temp25, i
+. Temp26
+= Temp26, 0
+. Temp27
+>= Temp27, Temp25, Temp26
+. Temp28
+&& Temp28, Temp24, Temp27
+?:= Label10, Temp28
+: Label7
+. Temp44
+= Temp44, i
+. Temp45
+= Temp45, j
+. Temp46
+>= Temp46, Temp44, Temp45
+. Temp47
+= Temp47, 0
+. Temp48
+|| Temp48, Temp46, Temp47
+?:= Label5, Temp48
+:= Label6
+: Label5
+. Temp49
+= Temp49, 1
+. Temp50
+= Temp50, i
+. Temp51
++ Temp51, Temp49, Temp50
+. Temp52
+= Temp52, j
+. Temp53
+- Temp53, Temp51, Temp52
+. Temp54
+= Temp54, 3
+. Temp55
+% Temp55, Temp53, Temp54
+= k,Temp55
+. Temp56
+= Temp56, i
+. Temp57
+= Temp57, 1
+. Temp58
+- Temp58, Temp56, Temp57
+= i,Temp58
+. Temp59
+= Temp59, k
+. Temp60
+= Temp60, 1
+. Temp61
+> Temp61, Temp59, Temp60
+?:= Label8, Temp61
+:= Label9
+: Label8
+: Label9
+.> k
+:= Label7
+: Label6
+:= Label11
+: Label10
+. Temp29
+= Temp29, i
+. Temp30
+= Temp30, i
+. Temp31
+= Temp31, 2
+. Temp32
+* Temp32, Temp30, Temp31
+[]= t, Temp29, Temp32
+. Temp33
+= Temp33, j
+. Temp34
+= Temp34, j
+. Temp35
+= Temp35, 2
+. Temp36
+* Temp36, Temp34, Temp35
+[]= t, Temp33, Temp36
+. Temp37
+= Temp37, i
+. Temp38
+=[] Temp38, t, Temp37
+= k,Temp38
+. Temp39
+= Temp39, i
+. Temp40
+= Temp40, j
+. Temp41
+=[] Temp41, t, Temp40
+[]= t, Temp39, Temp41
+. Temp42
+= Temp42, j
+. Temp43
+= Temp43, k
+[]= t, Temp42, Temp43
+: Label11
+.> i
+.> j
+.> k
+. Temp62
+= Temp62, i
+. Temp63
+= Temp63, n
+. Temp64
+< Temp64, Temp62, Temp63
+. Temp65
+= Temp65, i
+. Temp66
+= Temp66, 0
+. Temp67
+>= Temp67, Temp65, Temp66
+. Temp68
+&& Temp68, Temp64, Temp67
+?:= Label12, Temp68
+:= Label13
+: Label12
+.[]> t, Temp69
+: Label13
+. Temp70
+= Temp70, j
+. Temp71
+= Temp71, n
+. Temp72
+< Temp72, Temp70, Temp71
+. Temp73
+= Temp73, j
+. Temp74
+= Temp74, 0
+. Temp75
+>= Temp75, Temp73, Temp74
+. Temp76
+&& Temp76, Temp72, Temp75
+?:= Label14, Temp76
+:= Label15
+: Label14
+.[]> t, Temp77
+: Label15
+endfunc

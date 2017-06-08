@@ -124,10 +124,12 @@ typedef union YYSTYPE
    BoolExpr*             boolexpr;
    Expression*           expression;
    Var*                  var;
+   Label*                label;
+   Beginloop *           beginloop;
  
 
 /* Line 2058 of yacc.c  */
-#line 131 "source.tab.h"
+#line 133 "source.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

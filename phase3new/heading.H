@@ -17,7 +17,12 @@ using namespace std;
 #include <cctype>
 #include <cstring>
 #include <stack>
-
+struct Label {
+    string start;
+    string exit;
+    string repeat;
+    Label() {};
+};
 inline std::string itoa( int x ) {  // converts an integer to a string.
   ostringstream s;
   s << x;

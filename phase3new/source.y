@@ -41,6 +41,8 @@ int yylex( void );
    BoolExpr*             boolexpr;
    Expression*           expression;
    Var*                  var;
+   Label*                label;
+   Beginloop *           beginloop;
  }
 
 // Here is the  start symbol of the grammar.
@@ -71,8 +73,7 @@ int yylex( void );
 %type       <expression>    Expression
 %type       <nonemptyexpressionlist> NonemptyExpressionList
 %type       <boolexpr>      BoolExpr
-
-
+%type       <beginloop>     Beginloop
 // Here, in order of increasing precedence, are the names of the tokens,
 // their associativity, and which components of the union YYSTYPE
 // their lexical values will occupy.  This information is from:
@@ -195,14 +196,19 @@ Statement    : Var ASSGN Expression       { $$ = new AssignmentStmt($1,$2,$3); }
                                         { $$ = new IfThenStmt($1,$2,$3,$4,$5); }
 	     | IF BoolExpr THEN Statements ELSE Statements ENDIF         
                               { $$ = new IfThenElseStmt($1,$2,$3,$4,$5,$6,$7); }
-	     | WHILE BoolExpr BEGINLOOP Statements ENDLOOP       
+	     | WHILE BoolExpr Beginloop Statements ENDLOOP       
                                          { $$ = new WhileStmt($1,$2,$3,$4,$5); }
-	     | DO BEGINLOOP Statements ENDLOOP WHILE BoolExpr
+	     | DO Beginloop Statements ENDLOOP WHILE BoolExpr
                                     { $$ = new DoWhileStmt($1,$2,$3,$4,$5,$6); }
              | READ Vars                           { $$ = new ReadStmt($1,$2); }
 	     | WRITE Vars                         { $$ = new WriteStmt($1,$2); }
 	     | CONTINUE                           { $$ = new ContinueStmt($1); }
              | RETURN Expression                 { $$ = new ReturnStmt($1,$2); }
+             ;
+ 
+ Beginloop   : BEGINLOOP {
+                 $$ = new Beginloop();
+             }
              ;
 
  BoolExpr    : Expression EQ Expression         { $$ = new BoolExpr($1,$2,$3); }

@@ -44,7 +44,6 @@ class Var;
 
 typedef list<Var*>          Vars;
 
-
 class Expression;
 typedef list<Expression*>   Expressions; 
 struct Node {
@@ -101,6 +100,22 @@ public:
 private:
   int lineNo;             // lineNo at Node's construction is used in pos()
   string nextTok;        // nextTok at Node's construction is used in pos()
+};
+class Beginloop : public Node {
+   public:
+    string start;
+    string exit;
+    string repeat;
+    Beginloop() {
+    
+    start = newLabel();
+    exit = newLabel();
+    repeat = newLabel();
+    Label * temp = new Label();
+    temp->start = start;
+    temp->exit = exit;
+    temp->repeat = repeat;
+  }
 };  
 class Var : public Node {
 public:
@@ -212,14 +227,14 @@ public:
    
   BoolExpr( Expression* c1, int c2, Expression* c3 ) {
     place = newTemp();
-    code = c1->code;
+    code += c1->code;
     code += c3->code;
     code += (". " + place +"\n");
     code += (findS(c2) + place + ", " + c1->place + ", " + c3->place + "\n");
   }
   BoolExpr( BoolExpr* c1,   int c2, BoolExpr* c3 ) {
     place = newTemp();
-    code = c1->code;
+    code += c1->code;
     code += c3->code;
     code += (". " + place +"\n");
     code += (findS(c2) + place + ", " + c1->place + ", " + c3->place + "\n");
@@ -227,7 +242,7 @@ public:
   }
   BoolExpr( int c1, BoolExpr* c2 ) {
     place = newTemp();
-    code = c2->code;
+    code += c2->code;
     code += (". " + place +"\n");
     code += (findS(c1) + place + ", " + c2->place + "\n");
   
@@ -311,6 +326,7 @@ public:
 
 class Statement : public Node {
 public:
+   stack<Label*> loop_stack;
   virtual ~Statement(){};
 };
 
@@ -363,47 +379,78 @@ public:
 
 class WhileStmt : public Statement {
 public:   
-  WhileStmt( int c1, BoolExpr* c2, int c3, Statements* c4, int c5) {
-    string start = newLabel();
-    string exit = newLabel();
-    string repeat = newLabel();
-    code += (": " + repeat + "\n");
+  WhileStmt( int c1, BoolExpr* c2, Beginloop* c3, Statements* c4, int c5) {
+   //  Label*  temp = new Label();
+    //temp->start = newLabel();
+    //temp->exit = newLabel();
+    //temp->repeat = newLabel();
+    //loop_stack.push(temp);
+    code += (": " + c3->repeat + "\n");
     code += c2->code;
-    code += ("?:= " + start + ", " + c2->place + "\n");
-    code += (":= " + exit + "\n");
-    code += (": " + start + "\n");
+    code += ("?:= " + c3->start + ", " + c2->place + "\n");
+    code += (":= " + c3->exit + "\n");
+    code += (": " + c3->start + "\n");
     for (auto it : *c4) {code += it->code;};
-    code += (":= " + repeat + "\n");
-    code += (": " + exit + "\n");
-    
+    code += (":= " + c3->repeat + "\n");
+    code += (": " + c3->exit + "\n");
+    loop_stack.pop();
   }
 };
-
 class DoWhileStmt : public Statement {
 public:   
-  DoWhileStmt( int c1, int c2, Statements* c3, int c4, int c5,
-	       BoolExpr* c6 ){}
+  DoWhileStmt( int c1, Beginloop* c2, Statements* c3, int c4, int c5,
+	       BoolExpr* c6 ){
+    code += (":= " + c2->start + "\n");
+    code += (": " + c2->repeat + "\n");
+    code += c6->code;
+    code += ("?:= " + c2->start + "\n");
+    code += (":= " + c2->exit + "\n");
+    code += (": " + c2->start + "\n");
+    for (auto it : *c3) {code += it->code;};
+    code += (":= " + c2->start + "\n"); 
+    code += c6->code;
+    code += (": " + c2->exit + "\n");
+    loop_stack.pop();
+  }
 };
 
 class ReadStmt : public Statement {
 public:   
   ReadStmt( int c1, Vars* c2 ) { 
-     for ( auto it : *c2 ) {code  += ( ".< " + it->place + "\n" );}
-    }
+     for ( auto it : *c2 ) {
+       if(it->type == 1) {
+         code  += ( ".< " + it->place + "\n" );
+      }
+      else {
+         code += it->code;
+         code += (".[] < " + it->place + ", " + it->index +"\n");
+      }
+  
+  }
+}
+
 };
 
 class WriteStmt : public Statement {
 public:   
   WriteStmt( int c1, Vars* c2 ) {
     for ( auto it : *c2 ) {
-      code  += ( ".> " + it->place + "\n" );
+      if (it->type == 1) {
+        code  += ( ".> " + it->place + "\n" );
+      }
+      else {
+        code += ( ".[]> " + it->place + ", " + it->index + "\n");
+     }
     }
   }
 };
 
 class ContinueStmt : public Statement {
 public:
-  ContinueStmt( int c1 ) {}
+  ContinueStmt( int c1 ) {
+    //code += (":= " + loop_stack.top()->start + "\n");
+
+  }
 };
 
 class ReturnStmt : public Statement {
