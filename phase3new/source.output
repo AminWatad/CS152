@@ -8,13 +8,13 @@ Grammar
 
     0 $accept: Program $end
 
-    1 Functions: /* empty */
+    1 Functions: %empty
     2          | Functions Function
 
-    3 Declarations: /* empty */
+    3 Declarations: %empty
     4             | Declarations Declaration
 
-    5 ParamDeclarations: /* empty */
+    5 ParamDeclarations: %empty
     6                  | ParamDeclarations ParamDeclaration
 
     7 Statements: Statement ';'
@@ -26,7 +26,7 @@ Grammar
    11 Vars: Var
    12     | Vars ',' Var
 
-   13 Expressions: /* empty */
+   13 Expressions: %empty
    14            | NonemptyExpressionList
 
    15 NonemptyExpressionList: Expression
