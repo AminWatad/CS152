@@ -29,6 +29,7 @@ extern map<string, Var*> vartab;
 static int counter = 0;
 static map<string,int> funTable;
 static map<string,int> arrTable;
+static string lastCall;
 class BoolExpr;
 
 class Function;
@@ -202,6 +203,7 @@ public:
             name = it-> place;
         }
         place = newTemp();
+        lastCall=*c1;
         code += ("param " + name + "\n");
         code += (". " + place + "\n");
         code += ("call " + *c1 + ", " + place +"\n");
@@ -481,6 +483,7 @@ public:
         
         // add *c2 to function symbol table
         funTable[*c2]=1;
+
         ( code += "func ") += *c2 += "\n";
         for( auto it : *c5  ) {  
             // add each param to symbol table
@@ -505,6 +508,11 @@ public:
     { for( Function* it : *c1 ) { 
         code += it->code;  // May need to insert a newline here.
     }
+        if(funTable.count(lastCall)==0)
+        {
+            cout<<"Error undefined function call"<<endl;
+            exit(1);
+        }
         if(funTable.count("main")==0)
         {
             cout<<"Error no main function"<<endl;
