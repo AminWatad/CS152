@@ -17,6 +17,7 @@ extern char* yytext;                           // defined & maintained in lex.c
 extern string compilerName;               // initialized from argv[0] in main()
 class Var;
 extern map<string, Var*> vartab;
+
 // Obsolete stuff:
 // extern SemanticType* theIntType;    // global entity for MiniJava's Int type
 // extern SemanticType* theIntArrayType;       // ... for MiniJava's Int[] type
@@ -30,7 +31,6 @@ static map<string,int> funTable;
 static map<string,int> arrTable;
 static string lastCall;
 static int lastCallFlag=0;
-
 class BoolExpr;
 
 class Function;
@@ -77,6 +77,7 @@ public:
         if(size<=0){
             cout<<"error: Array size must be greater than 0"<<endl;
             exit(1);}
+        arrTable[name]=size;
         for(int i=0;i<size;i++)
         {
             place=name+ itoa(size);
@@ -107,30 +108,34 @@ private:
     string nextTok;        // nextTok at Node's construction is used in pos()
 };
 class Beginloop : public Node {
-    //   public:
-    //    string start;
-    //    string exit;
-    //    string repeat;
-    //    Beginloop() {
-    //
-    //    start = newLabel();
-    //    exit = newLabel();
-    //    repeat = newLabel();
-    //    Label * temp = new Label();
-    //    temp->start = start;
-    //    temp->exit = exit;
-    //    temp->repeat = repeat;
-}
+public:
+    string start;
+    string exit;
+    string repeat;
+    Beginloop() {
+        
+//        start = newLabel();
+//        exit = newLabel();
+//        repeat = newLabel();
+//        Label * temp = new Label();
+//        temp->start = start;
+//        temp->exit = exit;
+//        temp->repeat = repeat;
+    }
 };
 class Var : public Node {
 public:
     Var( string* c1 ) {
         // check symbol table for collision
         place = *c1;
+        
+        
         if(!newVar(place)) {
             cout << "error: " << place <<" has already been defined" << endl;
             exit(1);
         }
+        
+        
         type = 1;
         //place = newTemp();
         //code += (". " + place + "/n");
@@ -143,7 +148,7 @@ public:
             exit(1);
         }
         if(arrTable.count(place)==0){
-            cout<<"var: "<< place<< " is not defined"<<endl;
+            cout<<"var: "<<place<< " is not an array"<<endl;
             exit(1);
         }
         index = c3->place;
@@ -218,7 +223,6 @@ public:
         code += (". " + place + "\n");
         code += (findSym(c2) + c3->place +"\n");
     }
-    
 };
 
 class BoolExpr    : public Node {
@@ -397,14 +401,14 @@ public:
         temp->exit = newLabel();
         temp->repeat = newLabel();
         loop_stack.push(temp);
-        code += (": " + temp->repeat + "\n");
+        code += (": " + loop_stack.top()->repeat + "\n");
         code += c2->code;
-        code += ("?:= " + temp->start + ", " + c2->place + "\n");
-        code += (":= " + temp->exit + "\n");
-        code += (": " + temp->start + "\n");
+        code += ("?:= " + loop_stack.top()->start + ", " + c2->place + "\n");
+        code += (":= " + loop_stack.top()->exit + "\n");
+        code += (": " + loop_stack.top()->start + "\n");
         for (auto it : *c4) {code += it->code;};
-        code += (":= " + temp->repeat + "\n");
-        code += (": " + temp->exit + "\n");
+        code += (":= " + loop_stack.top()->repeat + "\n");
+        code += (": " + loop_stack.top()->exit + "\n");
         loop_stack.pop();
     }
 };
@@ -412,16 +416,16 @@ class DoWhileStmt : public Statement {
 public:
     DoWhileStmt( int c1, Beginloop* c2, Statements* c3, int c4, int c5,
                 BoolExpr* c6 ){
-        code += (":= " + temp->start + "\n");
-        code += (": " + temp->repeat + "\n");
+        code += (":= " + c2->start + "\n");
+        code += (": " + c2->repeat + "\n");
         code += c6->code;
-        code += ("?:= " + temp->start + "\n");
-        code += (":= " + temp->exit + "\n");
-        code += (": " + temp->start + "\n");
+        code += ("?:= " + c2->start + "\n");
+        code += (":= " + c2->exit + "\n");
+        code += (": " + c2->start + "\n");
         for (auto it : *c3) {code += it->code;};
-        code += (":= " + temp->start + "\n");
+        code += (":= " + c2->start + "\n");
         code += c6->code;
-        code += (": " + temp->exit + "\n");
+        code += (": " + c2->exit + "\n");
         loop_stack.pop();
     }
 };
@@ -483,35 +487,33 @@ public:
         funTable[*c2]=1;
         
         ( code += "func ") += *c2 += "\n";
-        for( auto it : *c5  ) {  
+        for( auto it : *c5  ) {
             // add each param to symbol table
             code += it->code;
-        };   
-        for( auto it : *c8  ) { 
+        };
+        for( auto it : *c8  ) {
             // add each local to symbol table
             code += it->code;
-        };   
-        for( auto it : *c11 ) { 
+        };
+        for( auto it : *c11 ) {
             // add each statement's code to this function's code
             code += it->code;
-        };   
+        };
         code += "endfunc\n";
     }
-    
 };
 
 
-class Program     : public Node {    
+class Program     : public Node {
 public:
-    
-    Program(Functions *c1) 
-    { for( Function* it : *c1 ) { 
+    Program(Functions *c1)
+    { for( Function* it : *c1 ) {
         code += it->code;  // May need to insert a newline here.
     }
         if((funTable.count(lastCall)==0)&&(lastCallFlag==1))
         {
-            //            cout<<"Error undefined function call "<<lastCall<<lastCallFlag<<endl;
-            //            exit(1);
+            cout<<"Error undefined function call"<<endl;
+            exit(1);
         }
         if(funTable.count("main")==0)
         {
@@ -520,10 +522,10 @@ public:
         }
         // May need to do an analysis here.
         cout << code;
-    }  
-    
-    
-    
-    
-    
-    
+    }
+};
+
+
+
+
+
