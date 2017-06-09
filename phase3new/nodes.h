@@ -416,6 +416,11 @@ class DoWhileStmt : public Statement {
 public:
     DoWhileStmt( int c1, Beginloop* c2, Statements* c3, int c4, int c5,
                 BoolExpr* c6 ){
+        Label*  temp = new Label();
+        temp->start = newLabel();
+        temp->exit = newLabel();
+        temp->repeat = newLabel();
+        loop_stack.push(temp);
         code += (":= " + loop_stack.top()->start + "\n");
         code += (": " + loop_stack.top()->repeat + "\n");
         code += c6->code;
