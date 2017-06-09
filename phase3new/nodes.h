@@ -416,16 +416,16 @@ class DoWhileStmt : public Statement {
 public:
     DoWhileStmt( int c1, Beginloop* c2, Statements* c3, int c4, int c5,
                 BoolExpr* c6 ){
-        code += (":= " + c2->start + "\n");
-        code += (": " + c2->repeat + "\n");
+        code += (":= " + loop_stack.top()->start + "\n");
+        code += (": " + loop_stack.top()->repeat + "\n");
         code += c6->code;
-        code += ("?:= " + c2->start + "\n");
-        code += (":= " + c2->exit + "\n");
-        code += (": " + c2->start + "\n");
+        code += ("?:= " + loop_stack.top()->start + "\n");
+        code += (":= " + loop_stack.top()->exit + "\n");
+        code += (": " + loop_stack.top()->start + "\n");
         for (auto it : *c3) {code += it->code;};
-        code += (":= " + c2->start + "\n");
+        code += (":= " + loop_stack.top()->start + "\n");
         code += c6->code;
-        code += (": " + c2->exit + "\n");
+        code += (": " + loop_stack.top()->exit + "\n");
         loop_stack.pop();
     }
 };
@@ -455,6 +455,7 @@ public:
                 code  += ( ".> " + it->place + "\n" );
             }
             else {
+                code += it->code;
                 code += ( ".[]> " + it->place + ", " + it->index + "\n");
             }
         }
