@@ -422,10 +422,9 @@ public:
          temp->repeat = newLabel();
          loop_stack.push(temp);
         code += (":= " + loop_stack.top()->start + "\n");
-        for(auto it : *c3){code+=it->code;};
         code += (": " + loop_stack.top()->repeat + "\n");
         code += c6->code;
-        code += ("?:= " + loop_stack.top()->start + ", " + c6->place +"\n");
+        code += ("?:= " + loop_stack.top()->exit + ", " + c6->place +"\n");
         code += (":= " + loop_stack.top()->start + "\n");
         code += (": " + loop_stack.top()->start + "\n");
         for (auto it : *c3) {code += it->code;};
